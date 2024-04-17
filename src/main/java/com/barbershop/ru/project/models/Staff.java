@@ -1,16 +1,17 @@
-package com.barbershop.ru.project.models.staff;
+package com.barbershop.ru.project.models;
 
-import com.barbershop.ru.project.models.Appointment;
-import com.barbershop.ru.project.models.Barbershop;
-import com.barbershop.ru.project.models.Service;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import java.util.List;
 
 @Entity
 @Table(name = "Staff")
+@Getter
+@Setter
 public class Staff {
 
     @Id
@@ -32,8 +33,8 @@ public class Staff {
     @JsonIgnore
     private String patronymic;
 
-    @Column(name = "position_id")
-    @Enumerated(EnumType.ORDINAL)
+    @ManyToOne
+    @JoinColumn(name = "position_id", referencedColumnName = "id")
     @JsonIgnore
     private Position position;
 
@@ -66,85 +67,5 @@ public class Staff {
         this.position = position;
         this.phone = phone;
         this.mail = mail;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Barbershop getBarbershop() {
-        return barbershop;
-    }
-
-    public void setBarbershop(Barbershop barbershop) {
-        this.barbershop = barbershop;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public Long getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Long phone) {
-        this.phone = phone;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
-    public List<Service> getImpossibleServices() {
-        return impossibleServices;
-    }
-
-    public void setImpossibleServices(List<Service> impossibleServices) {
-        this.impossibleServices = impossibleServices;
     }
 }

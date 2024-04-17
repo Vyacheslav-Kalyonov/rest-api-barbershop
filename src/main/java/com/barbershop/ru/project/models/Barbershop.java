@@ -1,65 +1,54 @@
 package com.barbershop.ru.project.models;
 
-import com.barbershop.ru.project.models.staff.Staff;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "Barbershop")
+@Getter
+@Setter
 public class Barbershop {
 
     @Id
     @Column(name = "id")
     private int id;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "region")
+    private String region;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "house")
+    private String house;
+
+    @Column(name = "postal_code")
+    private Integer postalCode;
 
     @Column(name = "phone")
-    private String phone;
+    private Long phone;
 
     @OneToMany(mappedBy = "barbershop")
+    @JsonIgnore
     public List<Staff> staff;
 
     public Barbershop() {
 
     }
 
-    public Barbershop(String address, String phone) {
-        this.address = address;
+    public Barbershop(String region, String city, String street, String house, Integer postalCode, Long phone) {
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.postalCode = postalCode;
         this.phone = phone;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public List<Staff> getStaff() {
-        return staff;
-    }
-
-    public void setStaff(List<Staff> staff) {
-        this.staff = staff;
     }
 }

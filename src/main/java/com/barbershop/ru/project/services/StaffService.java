@@ -1,6 +1,6 @@
 package com.barbershop.ru.project.services;
 
-import com.barbershop.ru.project.models.staff.Staff;
+import com.barbershop.ru.project.models.Staff;
 import com.barbershop.ru.project.repositories.StaffRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +42,15 @@ public class StaffService {
     public void update(int id, Staff updatedStaff) {
         updatedStaff.setId(id);
         staffRepository.save(updatedStaff);
+    }
+
+    @Transactional
+    public List<Staff> findAllByBarbershopId(int id) {
+        return staffRepository.findAllByBarbershopId(id);
+    }
+
+    @Transactional
+    public List<Staff> findAllMastersByBarbershopId(int id) {
+        return staffRepository.findAllByPositionIsTrue();
     }
 }

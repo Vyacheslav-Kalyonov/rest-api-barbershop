@@ -1,10 +1,18 @@
 package com.barbershop.ru.project.models;
 
-import com.barbershop.ru.project.models.staff.Staff;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "Appointment")
+@Getter
+@Setter
 public class Appointment {
 
     @Id
@@ -19,84 +27,26 @@ public class Appointment {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
-    @Column(name = "full_name_client")
-    private String fullNameClient;
-
-    @Column(name = "phone")
-    private String phone;
-
     @Column(name = "service_id")
     private int serviceId;
 
     @Column(name = "data")
-    private String data;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
+
+    @Column(name = "status_code")
+    @Schema(hidden = true)
+    private Integer statusCode;
 
     public Appointment() {
 
     }
 
-    public Appointment(Staff staff, Client client, String fullNameClient, String phone, int serviceId, String data) {
+    public Appointment(Staff staff, Client client, int serviceId, Date data, Integer statusCode) {
         this.staff = staff;
         this.client = client;
-        this.fullNameClient = fullNameClient;
-        this.phone = phone;
         this.serviceId = serviceId;
         this.data = data;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public String getFullNameClient() {
-        return fullNameClient;
-    }
-
-    public void setFullNameClient(String fullNameClient) {
-        this.fullNameClient = fullNameClient;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public int getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
+        this.statusCode = statusCode;
     }
 }
