@@ -1,5 +1,6 @@
 package com.barbershop.ru.project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class Position {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "position")
@@ -22,6 +24,7 @@ public class Position {
     private Boolean hasAcceptAppointments;
 
     @OneToMany(mappedBy = "position")
+    @JsonIgnore
     private List<Staff> staffList;
 
     public Position() {}

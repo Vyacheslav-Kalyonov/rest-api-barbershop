@@ -1,5 +1,6 @@
 package com.barbershop.ru.project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class Client {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name")
@@ -29,6 +31,7 @@ public class Client {
     private String mail;
 
     @OneToMany(mappedBy = "client")
+    @JsonIgnore
     private List<Appointment> appointments;
 
     public Client() {

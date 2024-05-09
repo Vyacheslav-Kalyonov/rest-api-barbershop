@@ -2,7 +2,9 @@ package com.barbershop.ru.project.controllers;
 
 
 import com.barbershop.ru.project.models.Appointment;
+import com.barbershop.ru.project.models.Client;
 import com.barbershop.ru.project.services.AppointmentService;
+import com.barbershop.ru.project.services.ClientService;
 import com.barbershop.ru.project.util.AppointmentControllerUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final AppointmentControllerUtil appointmentUtil;
+    private final ClientService clientService;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, AppointmentControllerUtil appointmentUtil) {
+    public AppointmentController(AppointmentService appointmentService, AppointmentControllerUtil appointmentUtil, ClientService clientService) {
         this.appointmentService = appointmentService;
         this.appointmentUtil = appointmentUtil;
+        this.clientService = clientService;
     }
 
     @GetMapping("/check")
@@ -52,6 +56,15 @@ public class AppointmentController {
     @CrossOrigin()
     @Tag(name = "Добавление записи")
     public void addAppointment(@RequestBody Appointment appointment) {
+        Client client = appointment.getClient();
+        Client checkClient = clientService.findByPhone(client.getPhone(), client.getMail());
+
+        if (checkClient != null) {
+            appointment.setClient(checkClient);
+        } else {
+            clientService.save(client);
+        }
+        appointment.setStatusCode(0);
         appointmentService.save(appointment);
     }
 }

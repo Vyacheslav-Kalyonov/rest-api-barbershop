@@ -45,4 +45,9 @@ public class ClientService {
         updatedClient.setId(id);
         clientRepository.save(updatedClient);
     }
+
+    @Transactional
+    public Client findByPhone(long number, String mail) {
+        return clientRepository.findByPhoneOrMail(number, mail);
+    }
 }
