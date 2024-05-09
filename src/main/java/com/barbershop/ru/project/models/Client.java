@@ -31,7 +31,6 @@ public class Client {
     private String mail;
 
     @OneToMany(mappedBy = "client")
-    @JsonIgnore
     private List<Appointment> appointments;
 
     public Client() {

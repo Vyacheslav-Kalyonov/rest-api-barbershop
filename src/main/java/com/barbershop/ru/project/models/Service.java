@@ -3,7 +3,9 @@ package com.barbershop.ru.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -33,7 +35,6 @@ public class Service {
     @JoinTable(name = "master_service",
             joinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id", referencedColumnName = "id"))
-    @JsonIgnore
     private List<Staff> masterCapablePerformingService;
 
     public Service() {

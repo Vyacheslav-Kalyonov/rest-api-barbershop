@@ -35,6 +35,7 @@ public class AppointmentService {
 
     @Transactional
     public void save(Appointment appointment) {
+        appointment.setStatusCode(0);
         appointmentRepository.save(appointment);
     }
 

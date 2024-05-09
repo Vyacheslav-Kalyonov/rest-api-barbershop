@@ -37,7 +37,6 @@ public class Barbershop {
     private Long phone;
 
     @OneToMany(mappedBy = "barbershop")
-    @JsonIgnore
     public List<Staff> staff;
 
     public Barbershop() {

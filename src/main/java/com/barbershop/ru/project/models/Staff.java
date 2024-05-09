@@ -2,7 +2,9 @@ package com.barbershop.ru.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Table(name = "Staff")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Staff {
 
     @Id
@@ -21,7 +25,6 @@ public class Staff {
 
     @ManyToOne
     @JoinColumn(name = "barbershop_id", referencedColumnName = "id")
-    @JsonIgnore
     private Barbershop barbershop;
 
     @Column(name = "name")
@@ -36,37 +39,20 @@ public class Staff {
 
     @ManyToOne
     @JoinColumn(name = "position_id", referencedColumnName = "id")
-    @JsonIgnore
     private Position position;
 
     @Column(name = "phone")
     private Long phone;
 
     @Column(name = "mail")
-    @JsonIgnore
     private String mail;
 
     @OneToMany(mappedBy = "staff")
-    @JsonIgnore
     private List<Appointment> appointments;
 
     @ManyToMany()
     @JoinTable(name = "master_service",
     joinColumns = @JoinColumn(name = "staff_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-    @JsonIgnore
     private List<Service> impossibleServices;
-
-    public Staff() {
-    }
-
-    public Staff(Barbershop barbershop, String name, String surname, String patronymic, Position position, Long phone, String mail) {
-        this.barbershop = barbershop;
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.position = position;
-        this.phone = phone;
-        this.mail = mail;
-    }
 }

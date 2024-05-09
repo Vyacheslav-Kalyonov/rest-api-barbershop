@@ -47,7 +47,7 @@ public class ClientService {
     }
 
     @Transactional
-    public Client findByPhone(long number, String mail) {
+    public Client findByPhoneOrMail(long number, String mail) {
         return clientRepository.findByPhoneOrMail(number, mail);
     }
 }

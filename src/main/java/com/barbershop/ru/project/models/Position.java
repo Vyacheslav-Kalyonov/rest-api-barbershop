@@ -24,7 +24,6 @@ public class Position {
     private Boolean hasAcceptAppointments;
 
     @OneToMany(mappedBy = "position")
-    @JsonIgnore
     private List<Staff> staffList;
 
     public Position() {}

@@ -1,10 +1,13 @@
 package com.barbershop.ru.project.controllers;
 
 
+import com.barbershop.ru.project.dto.ServiceDTO;
+import com.barbershop.ru.project.dto.StaffDTO;
 import com.barbershop.ru.project.models.Service;
 import com.barbershop.ru.project.models.Staff;
 import com.barbershop.ru.project.services.StaffService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +19,12 @@ import java.util.List;
 public class StaffController {
 
     private final StaffService staffService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public StaffController(StaffService staffService) {
+    public StaffController(StaffService staffService, ModelMapper modelMapper) {
         this.staffService = staffService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/masters/{barbershop_id}")
@@ -32,15 +37,23 @@ public class StaffController {
     @GetMapping("/master/{id}")
     @CrossOrigin()
     @Tag(name = "Получение мастера по id")
-    public Staff getMaster(@PathVariable(name = "id") int id) {
-        return staffService.findOne(id);
+    public StaffDTO getMaster(@PathVariable(name = "id") int id) {
+        return convertToStaffDTO(staffService.findOne(id));
     }
 
     @GetMapping("/master/service/{id}")
     @CrossOrigin()
     @Tag(name = "Получение услуг у мастера", description = "Получение списка возможных услуг у мастера")
-    public List<Service> getServicesByMaster(@PathVariable(name = "id") int id) {
+    public List<ServiceDTO> getServicesByMaster(@PathVariable(name = "id") int id) {
         Staff master = staffService.findOne(id);
-        return master.getImpossibleServices();
+        return master.getImpossibleServices().stream().map(this::convertToServiceDTO).toList();
+    }
+
+    private ServiceDTO convertToServiceDTO(Service service) {
+        return modelMapper.map(service, ServiceDTO.class);
+    }
+
+    private StaffDTO convertToStaffDTO(Staff staff) {
+        return modelMapper.map(staff, StaffDTO.class);
     }
 }
