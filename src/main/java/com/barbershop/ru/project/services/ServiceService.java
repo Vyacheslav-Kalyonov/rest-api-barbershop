@@ -1,6 +1,6 @@
 package com.barbershop.ru.project.services;
 
-import com.barbershop.ru.project.models.Client;
+import com.barbershop.ru.project.exception.service.ServiceNotFoundException;
 import com.barbershop.ru.project.repositories.ServiceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ServiceService {
 
     @Transactional
     public com.barbershop.ru.project.models.Service findOne(int id) {
-        return serviceRepository.findById(id).orElse(null);
+        return serviceRepository.findById(id).orElseThrow(ServiceNotFoundException::new);
     }
 
     @Transactional

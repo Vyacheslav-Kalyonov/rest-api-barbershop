@@ -43,4 +43,9 @@ public class BarbershopService {
         updatedBarbershop.setId(id);
         barbershopRepository.save(updatedBarbershop);
     }
+
+    @Transactional
+    public boolean existById(int id) {
+        return barbershopRepository.existsById(id);
+    }
 }

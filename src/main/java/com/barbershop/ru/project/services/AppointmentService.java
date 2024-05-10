@@ -1,5 +1,6 @@
 package com.barbershop.ru.project.services;
 
+import com.barbershop.ru.project.exception.staff.StaffNotFoundException;
 import com.barbershop.ru.project.models.Appointment;
 import com.barbershop.ru.project.models.Staff;
 import com.barbershop.ru.project.repositories.AppointmentRepository;
@@ -14,13 +15,13 @@ import java.util.*;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    private final StaffRepository staffRepository;
+    private final StaffService staffService;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, StaffRepository staffRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, StaffService staffService) {
         this.appointmentRepository = appointmentRepository;
-        this.staffRepository = staffRepository;
+        this.staffService = staffService;
     }
 
     @Transactional
@@ -52,12 +53,16 @@ public class AppointmentService {
 
     @Transactional
     public List<Appointment> findAppointmentByDataAndStaffId(Date date1, Date date2, int staffId) {
+        if (!staffService.existById(staffId)) {
+            throw new StaffNotFoundException();
+        }
+
         return appointmentRepository.findAppointmentByDataBetweenAndStaffId(date1, date2, staffId);
     }
 
     public List<String> checkAvailableTime(Date date, int barbershopId) {
         Set<String> result = new LinkedHashSet<>();
-        List<Staff> staffList = staffRepository.findAllByPositionIsTrue();
+        List<Staff> staffList = staffService.findAllMastersByBarbershopId(barbershopId);
         for (Staff staff : staffList) {
             result.addAll(findAppointmentByStaffId(date, staff.getId()));
         }

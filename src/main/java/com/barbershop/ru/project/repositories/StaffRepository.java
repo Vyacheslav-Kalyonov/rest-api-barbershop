@@ -9,6 +9,4 @@ import java.util.List;
 public interface StaffRepository extends JpaRepository<Staff, Integer> {
 
     List<Staff> findAllByBarbershopId(int id);
-
-    List<Staff> findAllByPositionIsTrue();
 }
